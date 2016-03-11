@@ -1,0 +1,9 @@
+{
+  "apps" : [
+    {
+      "name"       : "twitter-stream-api",
+      "script"     : "bin/www",
+      "watch"       : "."
+    }
+  ]
+}

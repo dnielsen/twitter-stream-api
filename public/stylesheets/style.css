@@ -1,0 +1,28 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#progress {
+  width: 100%;
+  height: 600px;
+}
+
+#progress img {
+  position: absolute;
+  top: calc(50% - 150px);
+  left: calc(50% - 200px);
+}
+
+#placeholder
+{
+  margin-top: 20px;
+}
+
+.highlight {
+  background-color: #FFFF88;
+}

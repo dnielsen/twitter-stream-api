@@ -1,0 +1,63 @@
+extends layout
+
+block content
+    h1= title
+
+    .input-group
+        .input-group-addon #
+        input#hashtag.form-control(type='text', placeholder='put your hashtag' value='SXSW')
+        span.input-group-btn
+            button.btn.btn-default(type='submit',id="search-button")
+                i.fa.fa-search
+
+    div(id="progress", class='hidden')
+        img(src='/images/loader.gif')
+
+    div(id="placeholder", class="table-responsive")
+
+    script(type='text/javascript').
+        $(function () {
+            $("#search-button").click(function () {
+                $("#placeholder").addClass('hidden');
+                $("#progress").removeClass('hidden');
+
+                var payload = $("input#hashtag").val();
+
+                        $.ajax({
+                            url: "/"+payload,
+                            method: 'GET',
+                            dataType: 'json'
+                        }).done(function (data) {
+                            $("#progress").addClass('hidden');
+                            // console.log(data);
+                            if (data.status=="success")
+                            {
+                                $("#placeholder").removeClass('hidden');
+                                if (data.result.length > 0) {
+                                    $('#placeholder').html(
+                                            '<table class="table table-bordered">' +
+                                            '<thead><tr><th>Tweet</th></tr></thead>' +
+                                            '<tbody></tbody>'+
+                                            '</table>');
+
+                                    data.result.forEach(function (item) {
+                                        $("#placeholder").find("table > tbody:last").append('<tr><td>' + item + '</td></tr>');
+                                    });
+
+                                    $("#placeholder").highlight("#"+payload, { caseSensitive: true });
+                                } else
+                                {
+                                    $('#placeholder').html(
+                                            '<em>No results for #'+payload+'</em>');
+                                }
+
+                            }
+                            //$("#log").val(JSON.stringify(data, null, 4));
+                        }).fail(function (jqXHR, textStatus) {
+                            alert("Request failed: " + textStatus);
+                        });
+                    }
+            );
+
+        });
+
